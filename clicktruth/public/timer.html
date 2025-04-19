@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ClickTruth</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      color: #ffffff;
+      font-family: 'Orbitron', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin: 0;
+      z-index: 2;
+    }
+
+    #timer {
+      font-size: 4rem;
+      margin-top: 20px;
+      letter-spacing: 0.1em;
+      z-index: 2;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      padding: 20px 40px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 20px rgba(0,255,255,0.2);
+    }
+
+    #timestamp {
+      font-size: 1.2rem;
+      margin-top: 10px;
+      color: #ffffffcc;
+      z-index: 2;
+    }
+
+    #now-playing {
+      font-size: 1rem;
+      margin-top: 10px;
+      color: #ffffffbb;
+      z-index: 2;
+    }
+
+    h2 {
+      font-size: 1rem;
+      margin-top: 30px;
+      color: #ffffffaa;
+      z-index: 2;
+    }
+
+    .scanlines, .flicker, .noise {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .scanlines {
+      background-image: repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,0.05),
+        rgba(255,255,255,0.05) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+    }
+
+    .flicker {
+      background: rgba(255,255,255,0.02);
+      animation: flicker 0.15s infinite;
+    }
+
+    .noise {
+      background: url('https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif');
+      background-size: cover;
+      opacity: 0.03;
+      mix-blend-mode: screen;
+    }
+
+    @keyframes flicker {
+      0%, 100% { opacity: 0.01; }
+      50% { opacity: 0.03; }
+    }
+  </style>
+</head>
+<body>
+  <h1>ClickTruth - Time Until Truth is Released</h1>
+  <div id="timer">00:00:00</div>
+  <div id="timestamp">Time on site: 00:00:00</div>
+  <div id="now-playing">Now Playing: Nothing</div>
+  <h2>The timer can be reset or modified at any time.</h2>
+  <h2>This timer will count down the truth about the game <b>"GORILLA TAG"</b>, one of the most popular games on Meta, and we will reveal the truth.</h2>
+  <h2>The truth page will be archived later on at </h2> <a href="archives.html">Our Archives</a>
+
+  <div class="scanlines"></div>
+  <div class="flicker"></div>
+  <div class="noise"></div>
+
+  <audio id="bg-music">
+    <source src="" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    const estTargetTimeUTC = new Date("2025-04-19T05:25:00Z");
+    const timerEl = document.getElementById('timer');
+    const timestampEl = document.getElementById('timestamp');
+    const nowPlayingEl = document.getElementById('now-playing');
+    const music = document.getElementById('bg-music');
+
+    let sessionSeconds = 0;
+    let started = false;
+
+    const playlist = [
+      "uploads/fur-elise-music-box-70375.mp3",
+      "uploads/Ratamahatta.mp3",
+      "uploads/03_Sonne.mp3",
+      "uploads/KillswitchEngage-MyLastSerenade.mp3"
+    ];
+    let trackIndex = 0;
+
+    function formatTime(secs) {
+      const h = String(Math.floor(secs / 3600)).padStart(2, '0');
+      const m = String(Math.floor((secs % 3600) / 60)).padStart(2, '0');
+      const s = String(secs % 60).padStart(2, '0');
+      return `${h}:${m}:${s}`;
+    }
+
+    function updateTimers() {
+      const now = new Date();
+      const diff = estTargetTimeUTC - now;
+
+      if (diff > 0) {
+        timerEl.textContent = formatTime(Math.floor(diff / 1000));
+      } else {
+        timerEl.textContent = "Time's up!";
+        window.location.href = "truth.html";
+      }
+
+      sessionSeconds++;
+      timestampEl.textContent = "Time on site: " + formatTime(sessionSeconds);
+    }
+
+    function updateNowPlaying() {
+      const filename = playlist[trackIndex].split('/').pop();
+      nowPlayingEl.textContent = "Now Playing: " + filename;
+    }
+
+    function playTrack() {
+      if (trackIndex < playlist.length) {
+        music.src = playlist[trackIndex];
+        music.play();
+        updateNowPlaying();
+      } else {
+        nowPlayingEl.textContent = "Now Playing: Nothing";
+      }
+    }
+
+    document.addEventListener('click', () => {
+      if (!started) {
+        playTrack();
+        started = true;
+      }
+    });
+
+    music.addEventListener('ended', () => {
+      trackIndex++;
+      playTrack();
+    });
+
+    setInterval(updateTimers, 1000);
+    updateTimers();
+  </script>
+</body>
+</html>
