@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Truth Exposed</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Crimson+Text:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #111;
+      font-family: 'Crimson Text', serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      background-image: url('https://i.pinimg.com/originals/2a/36/7e/2a367e8e16c773c1378e37229c07b7b9.png'); /* VCR Tape Background */
+      background-size: cover;
+      flex-direction: column;
+    }
+
+    .window {
+      width: 400px;
+      height: 250px;
+      background: #222;
+      border: 2px solid #444;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      cursor: move;
+      z-index: 2;
+    }
+
+    .window-header {
+      background: #1d1d1d;
+      padding: 10px;
+      font-size: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+      font-weight: bold;
+      cursor: grab;
+    }
+
+    .close {
+      cursor: pointer;
+      color: white;
+    }
+
+    .window-body {
+      background: #333;
+      padding: 15px;
+      overflow-y: auto;
+      flex-grow: 1;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .draggable {
+      cursor: move;
+    }
+
+    .scanlines, .flicker, .noise {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .scanlines {
+      background-image: repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,0.05),
+        rgba(255,255,255,0.05) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+    }
+
+    .flicker {
+      background: rgba(255,255,255,0.02);
+      animation: flicker 0.15s infinite;
+    }
+
+    .noise {
+      background: url('https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif');
+      background-size: cover;
+      opacity: 0.03;
+      mix-blend-mode: screen;
+    }
+
+    @keyframes flicker {
+      0%, 100% { opacity: 0.01; }
+      50% { opacity: 0.03; }
+    }
+
+    /* Panel layout styles */
+    .panel-container {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      visibility: hidden; /* Hide the panels initially */
+      opacity: 0; /* Make them fully transparent initially */
+      transition: visibility 0s, opacity 1s ease-in-out;
+      z-index: 0; /* Ensure panels are below windows */
+      justify-content: space-between; /* Space between panels */
+      padding: 20px; /* Padding around the entire panel container */
+    }
+
+    .panel-container.fade-in {
+      visibility: visible;
+      opacity: 1; /* Fade in the panels */
+    }
+
+    .panel-left {
+      width: 200px;
+      height: 100%;
+      background-color: #444;
+      margin-right: 15px; /* Add space between left panels */
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      color: white;
+    }
+
+    .panel-right {
+      flex-grow: 1;
+      background-color: #333;
+      padding: 10px;
+      color: white;
+    }
+
+    /* Styling for the panels inside */
+    .panel-left > div {
+      margin-bottom: 10px;
+      padding: 10px;
+      background: #555;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Windows (initial state) -->
+  <div id="window1" class="window" style="top: 50px; left: 100px;">
+    <div class="window-header draggable" onmousedown="startDrag(event, 'window1')">
+      <span>Moderation Issue</span>
+      <span class="close" onclick="closeWindow('window1')">X</span>
+    </div>
+    <div class="window-body">
+      <ul>
+        <li>Innocent players are banned while trolls go unpunished.</li>
+        <li>Overpriced cosmetics at the cost of actual gameplay fixes.</li>
+      </ul>
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/H3wpppfOg3Y" title="Video Evidence"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <div id="window2" class="window" style="top: 100px; left: 500px;">
+    <div class="window-header draggable" onmousedown="startDrag(event, 'window2')">
+      <span>People Suck At The Game</span>
+      <span class="close" onclick="closeWindow('window2')">X</span>
+    </div>
+    <div class="window-body">
+      <ul>
+        <li>Y'all don't even have to disagree, it's already facts, stop accusing people you fatasses.</li>
+      </ul>
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/GaMTEQDhN5k" title="Video Evidence"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <div id="window3" class="window" style="top: 50px; left: 100px;">
+    <div class="window-header draggable" onmousedown="startDrag(event, 'window1')">
+      <span>Cosmetics over Gameplay</span>
+      <span class="close" onclick="closeWindow('window3')">X</span>
+    </div>
+    <div class="window-body">
+      <ul>
+        <li>Shitty game that's gameplay is just ass now, it's just cosmetics now.</li>
+        <li>It's just overpriced cosmetics over game fixes.</li>
+      </ul>
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/FtVSUoBMsA8" title="Video Evidence"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <div id="window4" class="window" style="top: 50px; left: 100px;">
+    <div class="window-header draggable" onmousedown="startDrag(event, 'window1')">
+      <span>Religion Dominates</span>
+      <span class="close" onclick="closeWindow('window4')">X</span>
+    </div>
+    <div class="window-body">
+      <ul>
+        <li>Religion dominates how people run the game, respect people's religions, Antoca just reported the kid because he was homophobic, not his believes. Connect the pieces, ya assholes, I'll shop but I'm not buying y'alls bullshit.</li>
+      </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="window5" class="window" style="top: 50px; left: 100px;">
+    <div class="window-header draggable" onmousedown="startDrag(event, 'window1')">
+      <span>Bigotry Dominates</span>
+      <span class="close" onclick="closeWindow('window5')">X</span>
+    </div>
+    <div class="window-body">
+      <ul>
+        <li>Half of y'all either racist or sexist, come on, beat me. I'm not lying and speaking true facts from the heart when I say that. Can you go into a lobby without being insulted?</li>
+      </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="window6" class="window" style="top: 50px; left: 100px;">
+    <div class="window-header draggable" onmousedown="startDrag(event, 'window1')">
+      <span>Swearing is not Slurs!</span>
+      <span class="close" onclick="closeWindow('window6')">X</span>
+    </div>
+    <div class="window-body">
+      <ul>
+        <li>I always say swear words and kids act like I just called them the hard-r in 8 different languages and report me, then follow it up by saying that "swear words are against the rules", I ALWAYS PROVE THEM WRONG, but they still REFUSE to accept it.</li>
+      </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- The 3 panel layout that appears after closing windows -->
+  <div id="panelContainer" class="panel-container">
+    <div class="panel-right">
+      <div>Can y'all be serious? This community can't even go into a controversy or go into fucking turmoil for one second. It's like trying to babysit two toddlers that despise eachother, one's the community and one's the reaction. They are different, community's ass, reaction's good. Why do you think this shit fucking monkey game has so many players? For one second did I never expect a gorilla game where you move your arms to play, It bought me into it during it's third month on Applab for the Oculus Quest, but now the community it's formed to as of right now. I'd say, y'all are fucking doomed to fail. Half of you are little racist kids or racist adults with a Quest that you didn't deserve, you are incels who do nothing to contribute to labor, just play this game all day. Go outside and touch grass, you probably look like someone straight from a cartoon movie. The amount of time you spend on a game is wild, I say, some of you kids get a pass, it's a fun game to you. Not to me, and you adult men reading this. Go find a girlfriend, unless you can't, probably likely that you can't and for a good reason, and Jmancurly, if he gets wind of this, please just focus on something else, this community is in shambles. It's not good to even pick up and fix cause half of you people are the CAUSE for this being written. Y'all better begin tending to this like it's a wound otherwise you're doomed to fail. - Rapscallion ;3</div>
+    </div>
+  </div>
+
+  <div class="scanlines"></div>
+  <div class="flicker"></div>
+  <div class="noise"></div>
+
+  <script>
+    let draggedWindow = null;
+    let offsetX, offsetY;
+    let openWindows = 2;  // Track the number of open windows
+
+    function startDrag(event, windowId) {
+      draggedWindow = document.getElementById(windowId);
+      offsetX = event.clientX - draggedWindow.getBoundingClientRect().left;
+      offsetY = event.clientY - draggedWindow.getBoundingClientRect().top;
+      document.addEventListener('mousemove', dragWindow);
+      document.addEventListener('mouseup', stopDrag);
+    }
+
+    function dragWindow(event) {
+      if (!draggedWindow) return;
+      draggedWindow.style.left = `${event.clientX - offsetX}px`;
+      draggedWindow.style.top = `${event.clientY - offsetY}px`;
+    }
+
+    function stopDrag() {
+      document.removeEventListener('mousemove', dragWindow);
+      document.removeEventListener('mouseup', stopDrag);
+    }
+
+    function closeWindow(windowId) {
+      const windowElement = document.getElementById(windowId);
+      windowElement.style.display = 'none';
+
+      openWindows--; // Decrease openWindows count
+
+      if (openWindows === 0) {
+        // Once both windows are closed, add the fade-in class to show the panels
+        document.getElementById('panelContainer').classList.add('fade-in');
+      }
+    }
+  </script>
+</body>
+</html>

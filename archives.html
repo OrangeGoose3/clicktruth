@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Archives - Truth Exposed</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Crimson+Text:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #0a0a0a;
+      font-family: 'Crimson Text', serif;
+      color: white;
+      background-image: url('https://i.pinimg.com/originals/2a/36/7e/2a367e8e16c773c1378e37229c07b7b9.png');
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 60px 20px;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3em;
+      margin-bottom: 40px;
+      text-shadow: 0 0 10px #ff00cc;
+    }
+
+    .archive-entry {
+      background: rgba(30, 30, 30, 0.9);
+      border: 1px solid #333;
+      padding: 20px;
+      width: 90%;
+      max-width: 800px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+      transition: background 0.3s;
+    }
+
+    .archive-entry:hover {
+      background: rgba(50, 50, 50, 0.9);
+    }
+
+    .entry-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.5em;
+      color: #ff69b4;
+      margin-bottom: 10px;
+    }
+
+    .entry-body {
+      line-height: 1.6;
+    }
+
+    a {
+      color: #ff69b4;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .scanlines, .flicker, .noise {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .scanlines {
+      background-image: repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,0.05),
+        rgba(255,255,255,0.05) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+    }
+
+    .flicker {
+      background: rgba(255,255,255,0.02);
+      animation: flicker 0.15s infinite;
+    }
+
+    .noise {
+      background: url('https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif');
+      background-size: cover;
+      opacity: 0.03;
+      mix-blend-mode: screen;
+    }
+
+    @keyframes flicker {
+      0%, 100% { opacity: 0.01; }
+      50% { opacity: 0.03; }
+    }
+  </style>
+</head>
+<body>
+  <h1>The Archives</h1>
+
+  <div class="scanlines"></div>
+  <div class="flicker"></div>
+  <div class="noise"></div>
+
+  <div class="archive-entry">
+    <div class="entry-title">⚠️ April 2025 - Full Surf On The Gorilla Tag Community</div>
+    <div class="entry-body">
+      Digging deep for why Gorilla Tag is shitty.<br>
+      <a href="timer.html">Read full report →</a>
+    </div>
+  </div>
+
+</body>
+</html>
