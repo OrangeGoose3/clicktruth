@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Project Foxy - Truth Exposed</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Crimson+Text:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #0a0a0a;
+      font-family: 'Crimson Text', serif;
+      color: white;
+      background-image: url('https://i.pinimg.com/originals/2a/36/7e/2a367e8e16c773c1378e37229c07b7b9.png');
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 80px 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3em;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px #ff0066;
+    }
+
+    p {
+      max-width: 700px;
+      font-size: 1.2em;
+      line-height: 1.8;
+      background: rgba(30, 30, 30, 0.9);
+      padding: 30px;
+      border: 1px solid #333;
+      box-shadow: 0 0 20px rgba(0,0,0,0.7);
+      margin-top: 20px;
+    }
+
+    .scanlines, .flicker, .noise {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .scanlines {
+      background-image: repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,0.05),
+        rgba(255,255,255,0.05) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+    }
+
+    .flicker {
+      background: rgba(255,255,255,0.02);
+      animation: flicker 0.15s infinite;
+    }
+
+    .noise {
+      background: url('https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif');
+      background-size: cover;
+      opacity: 0.03;
+      mix-blend-mode: screen;
+    }
+
+    @keyframes flicker {
+      0%, 100% { opacity: 0.01; }
+      50% { opacity: 0.03; }
+    }
+  </style>
+</head>
+<body>
+  <h1>🚧 Project Foxy - Delayed</h1>
+
+  <div class="scanlines"></div>
+  <div class="flicker"></div>
+  <div class="noise"></div>
+
+  <p>
+    <strong>Sorry, Project Foxy will be exposed on a different date.</strong><br><br>
+    Due to the devious nature of the acts presented by a user, Project Foxy is currently being investigated before we finish our decision to expose them.<br><br>
+    A official date has been set to May 30th, 2025. (Remember, it can be delayed or set back.)
+  </p>
+</body>
+</html>
